@@ -22,7 +22,7 @@ export class ClaudeApiBot extends AbstractBot {
       headers: {
         'content-type': 'application/json',
         'x-api-key': this.config.claudeApiKey,
-        'anthropic-version': '2023-06-01',
+        'anthropic-version': '2023-06-19', // Updated version
       },
       body: JSON.stringify({
         prompt,
@@ -41,6 +41,7 @@ export class ClaudeApiBot extends AbstractBot {
     if (!this.conversationContext) {
       this.conversationContext = { prompt: '' }
     }
+
     this.conversationContext.prompt += `\n\nHuman: ${params.prompt}\n\nAssistant:`
 
     const resp = await this.fetchCompletionApi(this.conversationContext.prompt, params.signal)
@@ -62,10 +63,14 @@ export class ClaudeApiBot extends AbstractBot {
 
   private getModelName() {
     switch (this.config.claudeApiModel) {
-      case ClaudeAPIModel['claude-instant-1']:
-        return 'claude-instant-1.2'
+      case ClaudeAPIModel['claude-3-opus-20240229']:
+        return 'claude-3-opus-20240229'
+      case ClaudeAPIModel['claude-3-sonnet-20240229']:
+        return 'claude-3-sonnet-20240229'
+      case ClaudeAPIModel['claude-3-haiku-20240307']:
+        return 'claude-3-haiku-20240307'
       default:
-        return 'claude-2.1'
+        return 'claude-3-haiku-20240307'
     }
   }
 

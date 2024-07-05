@@ -151,14 +151,16 @@ export class ChatGPTApiBot extends AbstractChatGPTApiBot {
   private getModelName() {
     const { chatgptApiModel } = this.config
     if (chatgptApiModel === 'gpt-4-turbo') {
-      return 'gpt-4-1106-preview'
+      return 'gpt-4=turbo'
+      if (chatgptApiModel === 'gpt-4o') {
+        return 'gpt-4o'
+      }
+      if (chatgptApiModel === 'gpt-3.5-turbo') {
+        return 'gpt-3.5-turbo'
+      }
+      return chatgptApiModel
     }
-    if (chatgptApiModel === 'gpt-3.5-turbo') {
-      return 'gpt-3.5-turbo-1106'
-    }
-    return chatgptApiModel
   }
-
   get name() {
     return `ChatGPT (API/${this.config.chatgptApiModel})`
   }

@@ -41,8 +41,9 @@ export enum ClaudeMode {
 }
 
 export enum ClaudeAPIModel {
-  'claude-2' = 'claude-2',
-  'claude-instant-1' = 'claude-instant-v1',
+  'claude-3-opus-20240229' = 'claude-3-opus-20240229',
+  'claude-3-sonnet-20240229' = 'claude-3-sonnet-20240229',
+  'claude-3-haiku-20240307' = 'claude-3-haiku-20240307',
 }
 
 export enum OpenRouterClaudeModel {
@@ -73,7 +74,7 @@ const userConfigWithDefaultValue = {
   enabledBots: Object.keys(CHATBOTS).slice(0, 8) as BotId[],
   claudeApiKey: '',
   claudeMode: ClaudeMode.Webapp,
-  claudeApiModel: ClaudeAPIModel['claude-2'],
+  claudeApiModel: ClaudeAPIModel['claude-3-haiku-20240307'],
   chatgptWebAccess: false,
   claudeWebAccess: false,
   openrouterOpenAIModel: CHATGPT_API_MODELS[0] as (typeof CHATGPT_API_MODELS)[number],
@@ -100,16 +101,19 @@ export async function getUserConfig(): Promise<UserConfig> {
   } else if (result.chatgptWebappModelName === 'gpt-4-mobile') {
     result.chatgptWebappModelName = ChatGPTWebModel['GPT-4']
   }
-  if (result.chatgptApiModel === 'gpt-3.5-turbo-16k') {
+  if (result.chatgptApiModel === 'gpt-3.5-turbo') {
     result.chatgptApiModel = 'gpt-3.5-turbo'
   } else if (result.chatgptApiModel === 'gpt-4-32k') {
     result.chatgptApiModel = 'gpt-4'
+  } else if (result.chatgptApiModel === 'gpt-4o') {
+    result.chatgptApiModel = 'gpt-4o'
   }
   if (
-    result.claudeApiModel !== ClaudeAPIModel['claude-2'] ||
-    result.claudeApiModel !== ClaudeAPIModel['claude-instant-1']
+    result.claudeApiModel !== ClaudeAPIModel['claude-3-haiku-20240307'] ||
+    result.claudeApiModel !== ClaudeAPIModel['claude-3-sonnet-20240229'] ||
+    result.claudeApiModel !== ClaudeAPIModel['claude-3-opus-20240229']
   ) {
-    result.claudeApiModel = ClaudeAPIModel['claude-2']
+    result.claudeApiModel = ClaudeAPIModel['claude-3-haiku-20240307']
   }
   return defaults(result, userConfigWithDefaultValue)
 }

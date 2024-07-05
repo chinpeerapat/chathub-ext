@@ -148,28 +148,28 @@ function SettingPage() {
             )}
           </ChatBotSettingPanel>
           <ChatBotSettingPanel title="Gemini Pro">
-            <div className="flex flex-col gap-1">
-              <p className="font-medium text-sm">
-                API Key (
-                <a
-                  href="https://makersuite.google.com/app/apikey"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline"
-                >
-                  how to create key
-                </a>
-                )
-              </p>
-              <Input
-                className="w-[400px]"
-                placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                value={userConfig.geminiApiKey}
-                onChange={(e) => updateConfigValue({ geminiApiKey: e.currentTarget.value })}
-                type="password"
-              />
-              <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
-            </div>
+          <div className="flex flex-col gap-1">
+  <p className="font-medium text-sm">
+    API Key (
+    <a
+      href="https://makersuite.google.com/app/apikey"
+      target="_blank"
+      rel="noreferrer"
+      className="underline"
+    >
+      how to create key
+    </a>
+    )
+  </p>
+  <Input
+    className="w-[400px]"
+    placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    value={userConfig.geminiApiKey}
+    onChange={(e) => updateConfigValue({ geminiApiKey: e.currentTarget.value })}
+    type="password"
+  />
+  <Blockquote className="mt-1">{t('Your keys are stored locally')}</Blockquote>
+</div>
           </ChatBotSettingPanel>
           <ChatBotSettingPanel title="Bing">
             <div className="flex flex-row gap-5 items-center">
