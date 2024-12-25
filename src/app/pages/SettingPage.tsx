@@ -101,7 +101,9 @@ function SettingPage() {
             <Select
               options={[
                 { name: 'All-In-One', value: ALL_IN_ONE_PAGE_ID },
-                ...Object.entries(CHATBOTS).map(([botId, bot]) => ({ name: bot.name, value: botId })),
+                ...Object.entries(CHATBOTS)
+                  .filter(([, bot]) => bot)
+                  .map(([botId, bot]) => ({ name: bot.name, value: botId })),
               ]}
               value={userConfig.startupPage}
               onChange={(v) => updateConfigValue({ startupPage: v })}

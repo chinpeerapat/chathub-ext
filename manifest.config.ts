@@ -44,7 +44,7 @@ export default defineManifest(async () => {
           linux: 'Alt+J',
           mac: 'Command+J',
         },
-        description: 'Open ChatHub app',
+        description: 'Open chatflows app',
       },
     },
     side_panel: {

@@ -6,7 +6,7 @@ async function trackEvent(name: string, props: object) {
   await ofetch(`${plausibleApiHost}/api/event`, {
     method: 'POST',
     body: {
-      domain: 'chathub.gg',
+      domain: 'chatflows.co',
       name,
       url: location.href,
       props,
@@ -16,7 +16,7 @@ async function trackEvent(name: string, props: object) {
 }
 
 export async function trackInstallSource() {
-  const { source } = await ofetch('https://chathub.gg/api/user/source', {
+  const { source } = await ofetch('https://chatflows.co/api/user/source', {
     credentials: 'include',
   })
   trackEvent('install', { source, language: navigator.language })

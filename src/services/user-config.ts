@@ -109,8 +109,8 @@ export async function getUserConfig(): Promise<UserConfig> {
     result.chatgptApiModel = 'gpt-4o'
   }
   if (
-    result.claudeApiModel !== ClaudeAPIModel['claude-3-haiku-20240307'] ||
-    result.claudeApiModel !== ClaudeAPIModel['claude-3-sonnet-20240229'] ||
+    result.claudeApiModel !== ClaudeAPIModel['claude-3-haiku-20240307'] &&
+    result.claudeApiModel !== ClaudeAPIModel['claude-3-sonnet-20240229'] &&
     result.claudeApiModel !== ClaudeAPIModel['claude-3-opus-20240229']
   ) {
     result.claudeApiModel = ClaudeAPIModel['claude-3-haiku-20240307']

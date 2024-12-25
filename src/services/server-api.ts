@@ -64,5 +64,17 @@ export async function fetchPurchaseInfo() {
 }
 
 export async function checkDiscount(params: { appOpenTimes: number; premiumModalOpenTimes: number }) {
-  return ofetch<{ show: boolean; campaign?: Campaign }>('https://chathub.gg/api/premium/discount/check', { params })
+  try {
+    return await ofetch<{ show: boolean; campaign?: Campaign }>('https://chathub.gg/api/premium/discount/check', { 
+      params,
+      onResponseError({ response }) {
+        console.warn('Premium discount check failed:', response.status);
+        return Promise.resolve();
+      },
+      retry: 0,
+    });
+  } catch (error) {
+    console.warn('Failed to check premium discount:', error);
+    return { show: false };
+  }
 }

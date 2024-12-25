@@ -3,7 +3,7 @@ import Plausible from 'plausible-tracker'
 import { getVersion } from '~utils'
 
 export const plausible = Plausible({
-  domain: 'chathub.gg',
+  domain: 'chatflows.co',
   hashMode: true,
   apiHost: import.meta.env.VITE_PLAUSIBLE_API_HOST || 'https://plausible.io',
 })
@@ -20,3 +20,8 @@ export function trackEvent(name: string, props?: { [propName: string]: string | 
     console.error('plausible.trackEvent error', err)
   }
 }
+
+trackEvent('test_event', {
+  version: '1.0',
+  page: 'home'
+})
