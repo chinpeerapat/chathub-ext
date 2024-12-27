@@ -12,6 +12,12 @@ interface Props {
 
 const ClaudeAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
   const { t } = useTranslation()
+
+  const CURRENT_CLAUDE_MODELS = [
+    { name: 'Claude 3.5 Sonnet', value: 'claude-3-5-sonnet-20241022' },
+    { name: 'Claude 3.5 Haiku', value: 'claude-3-5-haiku-20241022' }
+  ]
+
   return (
     <div className="flex flex-col gap-2 w-[400px]">
       <div className="flex flex-col gap-1">
@@ -27,9 +33,9 @@ const ClaudeAPISettings: FC<Props> = ({ userConfig, updateConfigValue }) => {
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">{t('API Model')}</p>
         <Select
-          options={Object.entries(ClaudeAPIModel).map(([k, v]) => ({ name: k, value: v }))}
-          value={userConfig.claudeApiModel}
-          onChange={(v) => updateConfigValue({ claudeApiModel: v })}
+          options={CURRENT_CLAUDE_MODELS}
+          value={userConfig.claudeApiModel as ClaudeAPIModel}
+          onChange={(value) => updateConfigValue({ claudeApiModel: value as ClaudeAPIModel })}
         />
       </div>
     </div>

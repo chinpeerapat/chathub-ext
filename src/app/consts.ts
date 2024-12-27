@@ -4,7 +4,6 @@ import bardLogo from '~/assets/logos/bard.svg'
 import bingLogo from '~/assets/logos/bing.svg'
 import chatglmLogo from '~/assets/logos/chatglm.svg'
 import chatgptLogo from '~/assets/logos/chatgpt.svg'
-import falconLogo from '~/assets/logos/falcon.jpeg'
 import geminiLogo from '~/assets/logos/gemini.png'
 import grokLogo from '~/assets/logos/grok.png'
 import llamaLogo from '~/assets/logos/llama.png'
@@ -13,7 +12,6 @@ import piLogo from '~/assets/logos/pi.png'
 import pplxLogo from '~/assets/logos/pplx.jpg'
 import qianwenLogo from '~/assets/logos/qianwen.png'
 import vicunaLogo from '~/assets/logos/vicuna.jpg'
-import wizardlmLogo from '~/assets/logos/wizardlm.png'
 import xunfeiLogo from '~/assets/logos/xunfei.png'
 import yiLogo from '~/assets/logos/yi.svg'
 import { BotId } from './bots'
@@ -55,10 +53,6 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
     name: 'Vicuna',
     avatar: vicunaLogo,
   },
-  falcon: {
-    name: 'Falcon',
-    avatar: falconLogo,
-  },
   grok: {
     name: 'Grok',
     avatar: grokLogo,
@@ -66,10 +60,6 @@ export const CHATBOTS: Record<BotId, { name: string; avatar: string }> = {
   pi: {
     name: 'Pi',
     avatar: piLogo,
-  },
-  wizardlm: {
-    name: 'WizardLM',
-    avatar: wizardlmLogo,
   },
   chatglm: {
     name: 'ChatGLM2',

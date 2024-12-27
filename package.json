@@ -53,6 +53,7 @@
     "@sentry/integrations": "^7.90.0",
     "@sentry/react": "^7.90.0",
     "@tanstack/react-router": "^0.0.1-beta.83",
+    "@types/node": "^22.10.2",
     "async-cache-dedupe": "^2.0.0",
     "browser-fs-access": "^0.35.0",
     "browser-image-compression": "^2.0.2",

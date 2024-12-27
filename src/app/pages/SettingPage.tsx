@@ -33,6 +33,9 @@ import {
 } from '~services/user-config'
 import { getVersion } from '~utils'
 import PagePanel from '../components/Page'
+import { BotId } from '~app/bots'
+
+console.log('Imported CHATBOTS:', CHATBOTS)
 
 const BING_STYLE_OPTIONS = [
   { name: 'Precise', value: BingConversationStyle.Precise },
@@ -49,14 +52,41 @@ const ChatBotSettingPanel: FC<PropsWithChildren<{ title: string }>> = (props) =>
   )
 }
 
+const getAvailableBots = () => {
+  try {
+    return Object.entries(CHATBOTS)
+      .filter(([, bot]) => {
+        // Add any premium checks here if needed
+        return bot && bot.name
+      })
+      .map(([botId, bot]) => ({
+        name: bot.name,
+        value: botId as BotId
+      }))
+  } catch (error) {
+    console.error('Error getting available bots:', error)
+    return []
+  }
+}
+
 function SettingPage() {
   const { t } = useTranslation()
   const [userConfig, setUserConfig] = useState<UserConfig | undefined>(undefined)
   const [dirty, setDirty] = useState(false)
 
   useEffect(() => {
-    getUserConfig().then((config) => setUserConfig(config))
+    getUserConfig()
+      .then((config) => setUserConfig(config))
+      .catch((error) => {
+        console.error('Failed to load user config:', error)
+        toast.error('Failed to load settings')
+      })
   }, [])
+
+  useEffect(() => {
+    console.log('CHATBOTS:', CHATBOTS)
+    console.log('userConfig:', userConfig)
+  }, [userConfig])
 
   const updateConfigValue = useCallback(
     (update: Partial<UserConfig>) => {
@@ -67,25 +97,31 @@ function SettingPage() {
   )
 
   const save = useCallback(async () => {
-    let apiHost = userConfig?.openaiApiHost
-    if (apiHost) {
-      apiHost = apiHost.replace(/\/$/, '')
-      if (!apiHost.startsWith('http')) {
-        apiHost = 'https://' + apiHost
+    try {
+      let apiHost = userConfig?.openaiApiHost
+      if (apiHost) {
+        apiHost = apiHost.replace(/\/$/, '')
+        if (!apiHost.startsWith('http')) {
+          apiHost = 'https://' + apiHost
+        }
+        try {
+          await Browser.permissions.request({ origins: [apiHost + '/'] })
+        } catch (e) {
+          console.error('Failed to request permissions:', e)
+          toast.error('Failed to request host permissions')
+          return
+        }
+      } else {
+        apiHost = undefined
       }
-      // request host permission to prevent CORS issues
-      try {
-        await Browser.permissions.request({ origins: [apiHost + '/'] })
-      } catch (e) {
-        console.error(e)
-      }
-    } else {
-      apiHost = undefined
+      await updateUserConfig({ ...userConfig!, openaiApiHost: apiHost })
+      setDirty(false)
+      toast.success('Saved')
+      setTimeout(() => location.reload(), 500)
+    } catch (error) {
+      console.error('Failed to save config:', error)
+      toast.error('Failed to save settings')
     }
-    await updateUserConfig({ ...userConfig!, openaiApiHost: apiHost })
-    setDirty(false)
-    toast.success('Saved')
-    setTimeout(() => location.reload(), 500)
   }, [userConfig])
 
   if (!userConfig) {
@@ -101,11 +137,9 @@ function SettingPage() {
             <Select
               options={[
                 { name: 'All-In-One', value: ALL_IN_ONE_PAGE_ID },
-                ...Object.entries(CHATBOTS)
-                  .filter(([, bot]) => bot)
-                  .map(([botId, bot]) => ({ name: bot.name, value: botId })),
+                ...getAvailableBots()
               ]}
-              value={userConfig.startupPage}
+              value={userConfig.startupPage || ALL_IN_ONE_PAGE_ID}
               onChange={(v) => updateConfigValue({ startupPage: v })}
             />
           </div>
@@ -117,7 +151,10 @@ function SettingPage() {
         <div className="flex flex-col gap-5 w-fit max-w-[700px]">
           <ChatBotSettingPanel title="ChatGPT">
             <RadioGroup
-              options={Object.entries(ChatGPTMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
+              options={[
+                { label: `API ${t('Mode')}`, value: ChatGPTMode.API },
+                { label: `Azure ${t('Mode')}`, value: ChatGPTMode.Azure },
+              ]}
               value={userConfig.chatgptMode}
               onChange={(v) => updateConfigValue({ chatgptMode: v as ChatGPTMode })}
             />
@@ -135,7 +172,10 @@ function SettingPage() {
           </ChatBotSettingPanel>
           <ChatBotSettingPanel title="Claude">
             <RadioGroup
-              options={Object.entries(ClaudeMode).map(([k, v]) => ({ label: `${k} ${t('Mode')}`, value: v }))}
+              options={[
+                { label: `API ${t('Mode')}`, value: ClaudeMode.API },
+                { label: `Webapp ${t('Mode')}`, value: ClaudeMode.Webapp },
+              ]}
               value={userConfig.claudeMode}
               onChange={(v) => updateConfigValue({ claudeMode: v as ClaudeMode })}
             />

@@ -33,7 +33,7 @@ class ProxyFetchRequester implements Requester {
 
   waitForProxyTabReady(): Promise<Browser.Tabs.Tab> {
     return new Promise((resolve, reject) => {
-      const listener = async function (message: any, sender: Runtime.MessageSender) {
+      const listener = async function (message: { event: string }, sender: Runtime.MessageSender) {
         if (message.event === 'PROXY_TAB_READY') {
           console.debug('new proxy tab ready')
           Browser.runtime.onMessage.removeListener(listener)

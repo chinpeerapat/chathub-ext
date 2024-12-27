@@ -19,12 +19,10 @@ export type BotId =
   | 'perplexity'
   | 'xunfei'
   | 'vicuna'
-  | 'falcon'
   | 'mistral'
   | 'chatglm'
   | 'llama'
   | 'pi'
-  | 'wizardlm'
   | 'qianwen'
   | 'baichuan'
   | 'yi'
@@ -46,13 +44,9 @@ export function createBotInstance(botId: BotId) {
     case 'vicuna':
       return new LMSYSBot('vicuna-33b')
     case 'chatglm':
-      return new LMSYSBot('chatglm2-6b')
+      return new LMSYSBot('chatglm3-6b')
     case 'llama':
       return new LMSYSBot('llama-2-70b-chat')
-    case 'wizardlm':
-      return new LMSYSBot('wizardlm-13b')
-    case 'falcon':
-      return new LMSYSBot('falcon-180b-chat')
     case 'mistral':
       return new LMSYSBot('mixtral-8x7b-instruct-v0.1')
     case 'yi':

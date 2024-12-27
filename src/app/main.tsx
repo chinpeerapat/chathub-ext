@@ -6,8 +6,10 @@ import './i18n'
 import { plausible } from './plausible'
 import { router } from './router'
 
-const container = document.getElementById('app')!
+// Ensure this matches the ID in index.html
+const container = document.getElementById('root')!
 const root = createRoot(container)
+
 root.render(<RouterProvider router={router} />)
 
 plausible.enableAutoPageviews()
