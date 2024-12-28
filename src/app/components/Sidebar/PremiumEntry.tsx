@@ -5,7 +5,12 @@ import premiumIcon from '~assets/icons/premium.svg'
 
 const PremiumEntry: FC<{ text: string }> = ({ text }) => {
   return (
-    <Link to="/premium">
+    <Link 
+      to="/premium"
+      search={{
+        source: undefined  // This matches the validateSearch in your router
+      }}
+    >
       <motion.div
         className="flex flex-row items-center gap-[10px] rounded-[10px] px-4 py-[6px] cursor-pointer"
         style={{

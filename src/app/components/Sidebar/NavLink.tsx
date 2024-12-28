@@ -1,7 +1,19 @@
-import { Link, LinkPropsOptions } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { cx } from '~/utils'
 
-function NavLink(props: LinkPropsOptions & { text: string; icon: any; iconOnly?: boolean }) {
+// Define a proper type for the icon prop
+type IconType = string
+
+interface NavLinkProps {
+  text: string
+  icon: IconType
+  iconOnly?: boolean
+  to: string
+  search?: Record<string, unknown>
+  params?: Record<string, string>
+}
+
+function NavLink(props: NavLinkProps) {
   const { text, icon, iconOnly, ...linkProps } = props
   return (
     <Link
@@ -17,7 +29,7 @@ function NavLink(props: LinkPropsOptions & { text: string; icon: any; iconOnly?:
       title={text}
       {...linkProps}
     >
-      <img src={icon} className="w-5 h-5" />
+      <img src={icon} className="w-5 h-5" alt={text} />
       {<span className="font-medium text-sm">{iconOnly ? '' : text}</span>}
     </Link>
   )

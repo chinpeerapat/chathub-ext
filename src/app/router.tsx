@@ -1,4 +1,4 @@
-import { createHashHistory, ReactRouter, RootRoute, Route, useParams } from '@tanstack/react-router'
+import { createHashHistory, createRouter, RootRoute, Route, useParams } from '@tanstack/react-router'
 import { BotId } from './bots'
 import Layout from './components/Layout'
 import MultiBotChatPanel from './pages/MultiBotChatPanel'
@@ -43,7 +43,7 @@ export const premiumRoute = new Route({
   component: PremiumPage,
   validateSearch: (search: Record<string, unknown>) => {
     return {
-      source: search.source as string | undefined,
+      source: (search.source as string | undefined) ?? undefined,
     }
   },
 })
@@ -51,7 +51,7 @@ export const premiumRoute = new Route({
 const routeTree = rootRoute.addChildren([layoutRoute.addChildren([indexRoute, chatRoute, settingRoute, premiumRoute])])
 
 const hashHistory = createHashHistory()
-const router = new ReactRouter({ routeTree, history: hashHistory })
+const router = createRouter({ routeTree, history: hashHistory })
 
 declare module '@tanstack/react-router' {
   interface Register {
